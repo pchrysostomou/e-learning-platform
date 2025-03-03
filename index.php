@@ -1,74 +1,57 @@
-<?php
-include("inc/config.php");
-?>
-
+<?php 
+   session_start();
+   if (!isset($_SESSION['username']) && !isset($_SESSION['id'])) {   ?>
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="<?php echo $baseurl;?>/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <script src="<?php echo $baseurl;?>/bootstrap/js/bootstrap.bundle.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-<section class="bg-light py-3 py-md-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-          <div class="card border border-light-subtle rounded-3 shadow-sm">
-            <div class="card-body p-3 p-md-4 p-xl-5">
-              <div class="text-center mb-3">
-                <a href="#!">
-                  <img src="./assets/img/bsb-logo.svg" alt="BootstrapBrain Logo" width="175" height="57">
-                </a>
-              </div>
-              <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Sign in to your account</h2>
-              <form action="#!">
-                <div class="row gy-2 overflow-hidden">
-                  <div class="col-12">
-                    <div class="form-floating mb-3">
-                      <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
-                      <label for="email" class="form-label">Email</label>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-floating mb-3">
-                      <input type="password" class="form-control" name="password" id="password" value="" placeholder="Password" required>
-                      <label for="password" class="form-label">Password</label>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="d-flex gap-2 justify-content-between">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="rememberMe" id="rememberMe">
-                        <label class="form-check-label text-secondary" for="rememberMe">
-                          Keep me logged in
-                        </label>
-                      </div>
-                      <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="d-grid my-3">
-                      <button class="btn btn-primary btn-lg" type="submit">Log in</button>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <p class="m-0 text-secondary text-center">Don't have an account? <a href="#!" class="link-primary text-decoration-none">Sign up</a></p>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+<head>
+	<title>multi-user role-based-login-system</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+      <div class="container d-flex justify-content-center align-items-center"
+      style="min-height: 100vh">
+      	<form class="border shadow p-3 rounded"
+      	      action="php/check-login.php" 
+      	      method="post" 
+      	      style="width: 450px;">
+      	      <h1 class="text-center p-3">LOGIN</h1>
+      	      <?php if (isset($_GET['error'])) { ?>
+      	      <div class="alert alert-danger" role="alert">
+				  <?=$_GET['error']?>
+			  </div>
+			  <?php } ?>
+		  <div class="mb-3">
+		    <label for="username" 
+		           class="form-label">User name</label>
+		    <input type="text" 
+		           class="form-control" 
+		           name="username" 
+		           id="username">
+		  </div>
+		  <div class="mb-3">
+		    <label for="password" 
+		           class="form-label">Password</label>
+		    <input type="password" 
+		           name="password" 
+		           class="form-control" 
+		           id="password">
+		  </div>
+		  <div class="mb-1">
+		    <label class="form-label">Select User Type:</label>
+		  </div>
+		  <select class="form-select mb-3"
+		          name="role" 
+		          aria-label="Default select example">
+			  <option selected value="user">User</option>
+			  <option value="admin">Admin</option>
+		  </select>
+		 
+		  <button type="submit" 
+		          class="btn btn-primary">LOGIN</button>
+		</form>
       </div>
-    </div>
-  </section>
-        <script src="" async defer></script>
-    </body>
+</body>
 </html>
+<?php }else{
+	header("Location: home.php");
+} ?>
