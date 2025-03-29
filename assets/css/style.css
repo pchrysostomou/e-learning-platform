@@ -1,0 +1,22 @@
+html, body {
+    height: 100%;
+}
+
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.row.flex-fill {
+    flex: 1;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    min-height: 100%;
+}
+
+.topbar .dropdown-menu a {
+    color: #212529;
+}

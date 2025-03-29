@@ -1,1 +1,27 @@
-.qodo
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Ignore environment file with DB credentials
+.env
+
+# Ignore Composer dependencies (can be installed fresh with composer install)
+vendor/
+
+# Ignore node dependencies (if using Node for frontend tools)
+node_modules/
+
+# Ignore logs, temp files, and uploads
+*.log
+*.cache
+*.tmp
+uploads/
+
+# Ignore IDE/editor folders
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore config files you don’t want in version control
+config.php
