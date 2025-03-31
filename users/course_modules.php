@@ -15,78 +15,85 @@ $student_id = $_SESSION['user_id'];
 $course_id = $_GET['course_id'] ?? null;
 
 if (!$course_id) {
-    $_SESSION['error'] = "Invalid course.";
+    $_SESSION['error'] = "Course not specified.";
     header("Location: " . base_url("users/dashboard.php"));
     exit;
 }
 
-// Verify student is enrolled
-$stmt = $pdo->prepare("SELECT c.* FROM enrollments e JOIN courses c ON c.id = e.course_id WHERE e.course_id = ? AND e.student_id = ?");
+// ✅ Verify enrollment
+$stmt = $pdo->prepare("SELECT c.* FROM courses c 
+    JOIN enrollments e ON e.course_id = c.id 
+    WHERE c.id = ? AND e.student_id = ?");
 $stmt->execute([$course_id, $student_id]);
 $course = $stmt->fetch();
 
 if (!$course) {
-    $_SESSION['error'] = "You are not enrolled in this course.";
+    $_SESSION['error'] = "Access denied or not enrolled.";
     header("Location: " . base_url("users/dashboard.php"));
     exit;
 }
 
-// Get modules for this course
+// ✅ Get modules
 $stmt = $pdo->prepare("SELECT * FROM modules WHERE course_id = ? ORDER BY created_at ASC");
 $stmt->execute([$course_id]);
 $modules = $stmt->fetchAll();
-
-// Get completed module IDs
-$stmt = $pdo->prepare("SELECT module_id FROM module_progress WHERE student_id = ?");
-$stmt->execute([$student_id]);
-$completed_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 $page_title = "Course Modules";
 include '../templates/header.php';
 ?>
 
-<h2 class="mb-3"><?= htmlspecialchars($course['title']) ?></h2>
-<p class="text-muted"><?= nl2br(htmlspecialchars($course['description'])) ?></p>
+<h2 class="mb-4">📘 Modules for <?= htmlspecialchars($course['title']) ?></h2>
 
-<h4 class="mt-4 mb-3">📘 Modules</h4>
+<?php if ($modules): ?>
+    <?php foreach ($modules as $mod): ?>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title"><?= htmlspecialchars($mod['title']) ?></h5>
+                <p class="card-text"><?= nl2br(htmlspecialchars($mod['content'])) ?></p>
+                <p class="text-muted small">Created on <?= date('Y-m-d H:i', strtotime($mod['created_at'])) ?></p>
 
-<?php if (!empty($modules)): ?>
-    <ul class="list-group">
-        <?php foreach ($modules as $i => $m): ?>
-            <li class="list-group-item d-flex justify-content-between align-items-start <?= in_array($m['id'], $completed_ids) ? 'bg-success bg-opacity-10' : '' ?>">
-                <div>
-                    <h6 class="mb-1"><?= ($i + 1) . '. ' . htmlspecialchars($m['title']) ?></h6>
-                    <p class="mb-1"><?= nl2br(htmlspecialchars($m['content'])) ?></p>
-                </div>
-                <div class="form-check ms-3">
-                    <input type="checkbox"
-                           class="form-check-input progress-check"
-                           data-module-id="<?= $m['id'] ?>"
-                           <?= in_array($m['id'], $completed_ids) ? 'checked' : '' ?>>
-                </div>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+                <?php
+                $m_stmt = $pdo->prepare("SELECT * FROM module_materials WHERE module_id = ?");
+                $m_stmt->execute([$mod['id']]);
+                $materials = $m_stmt->fetchAll();
+                ?>
+
+                <?php if ($materials): ?>
+                    <div class="mt-3">
+                        <strong>📎 Materials:</strong>
+                        <ul class="list-group list-group-flush mt-2">
+                            <?php foreach ($materials as $mat): ?>
+                                <?php
+                                    $ext = strtolower(pathinfo($mat['file_name'], PATHINFO_EXTENSION));
+                                    $size_kb = isset($mat['size']) ? number_format($mat['size'] / 1024, 1) : 'N/A';
+                                    $icon = '📄';
+                                    if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) $icon = '🖼';
+                                    elseif ($ext === 'pdf') $icon = '📕';
+                                    elseif (in_array($ext, ['doc', 'docx'])) $icon = '📝';
+                                    elseif (in_array($ext, ['ppt', 'pptx'])) $icon = '📊';
+                                ?>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <?= $icon ?>
+                                        <a href="<?= base_url("users/download.php?file_id=" . $mat['id']) ?>" target="_blank">
+                                            <?= htmlspecialchars($mat['original_name'] ?: $mat['filename']) ?>
+                                        </a>
+                                        <span class="text-muted small">(<?= strtoupper($ext) ?>, <?= $size_kb ?> KB)</span><br>
+                                        <span class="text-muted small">⬇ Downloads: <?= (int)$mat['download_count'] ?></span>
+                                    </div>
+                                    <a href="<?= base_url("users/download.php?file_id=" . $mat['id']) ?>" class="btn btn-sm btn-outline-primary" download>
+                                        ⬇ Download
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
 <?php else: ?>
-    <div class="alert alert-info">No modules available for this course.</div>
+    <div class="alert alert-info">No modules available yet.</div>
 <?php endif; ?>
-
-<script>
-document.querySelectorAll('.progress-check').forEach(box => {
-    box.addEventListener('change', () => {
-        const moduleId = box.dataset.moduleId;
-        const checked = box.checked ? 1 : 0;
-
-        fetch("<?= base_url('users/update_progress.php') ?>", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `module_id=${moduleId}&completed=${checked}`
-        }).then(() => {
-            box.closest('li').classList.toggle('bg-success', checked);
-            box.closest('li').classList.toggle('bg-opacity-10', checked);
-        });
-    });
-});
-</script>
 
 <?php include '../templates/footer.php'; ?>
