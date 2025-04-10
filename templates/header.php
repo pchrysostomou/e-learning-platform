@@ -23,7 +23,7 @@ $profile_pic = base_url('uploads/profile_pics/' . ($pic ?: 'default.png'));
     <meta charset="UTF-8">
     <title><?= $page_title ?? 'E-Learning Platform' ?></title>
     <link rel="stylesheet" href="<?= base_url('bootstrap/css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <div class="flex-grow-1">

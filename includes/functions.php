@@ -1,4 +1,10 @@
 <?php
+//add error logging 
+ini_set('log_errors', 1);
+ini_set('display_errors', 0); // hide from browser
+ini_set('error_log', __DIR__ . '/../logs/app_errors.log');
+
+
 if (!function_exists('base_url')) {
     function base_url($path = '') {
         // Load .env only if not already loaded

@@ -8,6 +8,9 @@ Thumbs.db
 # Ignore Composer dependencies (can be installed fresh with composer install)
 vendor/
 
+#Ignore logs folder
+logs/
+
 # Ignore node dependencies (if using Node for frontend tools)
 node_modules/
 
