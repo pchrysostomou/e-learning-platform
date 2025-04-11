@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->fetch()) {
             $token = bin2hex(random_bytes(32));
-            $expires = date('Y-m-d H:i:s', time() + 1800); // 30 minutes
+            $expires = date('d-m-Y H:i:s', time() + 1800); // 30 minutes
 
             $pdo->prepare("DELETE FROM password_resets WHERE email = ?")->execute([$email]);
 

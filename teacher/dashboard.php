@@ -120,8 +120,8 @@ require_once '../templates/header.php';
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
+            <th class="w-25 text-wrap">Title</th>
+            <th class="w-25 text-wrap">Description</th>
             <th style="width: 150px;">Actions</th>
         </tr>
     </thead>
@@ -129,9 +129,9 @@ require_once '../templates/header.php';
         <?php if (!empty($courses)): ?>
             <?php foreach ($courses as $course): ?>
                 <tr>
-                    <td><?= htmlspecialchars($course['title']) ?></td>
-                    <td><?= htmlspecialchars($course['description']) ?></td>
-                    <td>
+                    <td class="text-wrap"><?= htmlspecialchars($course['title']) ?></td>
+                    <td class="text-wrap"><?= htmlspecialchars($course['description']) ?></td>
+                    <td class="text-wrap">
                         <a href="<?= base_url('teacher/edit_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
                         <a href="<?= base_url('teacher/delete_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this course?')">Delete</a>
                     </td>

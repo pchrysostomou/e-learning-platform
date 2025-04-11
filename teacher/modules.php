@@ -77,19 +77,19 @@ include '../templates/header.php';
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Created</th>
+                <th class="w-25 text-wrap">#</th>
+                <th class="w-25 text-wrap">Title</th>
+                <th class="w-25 text-wrap">Created</th>
                 <th style="width: 120px;">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($modules as $i => $m): ?>
                 <tr>
-                    <td><?= $offset + $i + 1 ?></td>
-                    <td><?= htmlspecialchars($m['title']) ?></td>
-                    <td><?= date('Y-m-d H:i', strtotime($m['created_at'])) ?></td>
-                    <td>
+                    <td class="text-wrap"><?= $offset + $i + 1 ?></td>
+                    <td class="text-wrap"><?= htmlspecialchars($m['title']) ?></td>
+                    <td class="text-wrap"><?= date('d-m-Y H:i', strtotime($m['created_at'])) ?></td>
+                    <td class="text-wrap">
                         <a href="<?= base_url('teacher/edit_module.php?id=' . $m['id'] . '&course_id=' . $course_id) ?>" class="btn btn-sm btn-primary">Edit</a>
                         <a href="<?= base_url('teacher/delete_module.php?id=' . $m['id'] . '&course_id=' . $course_id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this module?')">Delete</a>
                     </td>

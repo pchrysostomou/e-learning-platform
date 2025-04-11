@@ -66,18 +66,18 @@ if ($format === 'excel') {
 
     $html = '<table border="1" cellpadding="5" cellspacing="0">'
           . '<thead><tr>'
-          . '<th><strong>Title</strong></th>'
-          . '<th><strong>Week</strong></th>'
-          . '<th><strong>Attempts</strong></th>'
-          . '<th><strong>Average Score</strong></th>'
+          . '<th class="w-25 text-wrap"><strong>Title</strong></th>'
+          . '<th class="w-25 text-wrap"><strong>Week</strong></th>'
+          . '<th class="w-25 text-wrap"><strong>Attempts</strong></th>'
+          . '<th class="w-25 text-wrap"><strong>Average Score</strong></th>'
           . '</tr></thead><tbody>';
 
     foreach ($quizzes as $quiz) {
         $html .= '<tr>'
-              . '<td>' . htmlspecialchars($quiz['title']) . '</td>'
-              . '<td>Week ' . $quiz['week'] . '</td>'
-              . '<td>' . $quiz['attempts'] . '</td>'
-              . '<td>' . $quiz['avg_score'] . '</td>'
+              . '<td class="text-wrap">' . htmlspecialchars($quiz['title']) . '</td>'
+              . '<td class="text-wrap">Week ' . $quiz['week'] . '</td>'
+              . '<td class="text-wrap">' . $quiz['attempts'] . '</td>'
+              . '<td class="text-wrap">' . $quiz['avg_score'] . '</td>'
               . '</tr>';
     }
 

@@ -132,19 +132,19 @@ include '../templates/header.php';
         <table class="table table-bordered table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th>Quiz</th>
-                    <th>Score</th>
-                    <th>Date</th>
-                    <th>Action</th>
+                    <th class="w-25 text-wrap">Quiz</th>
+                    <th class="w-25 text-wrap">Score</th>
+                    <th class="w-25 text-wrap">Date</th>
+                    <th class="w-25 text-wrap">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($recent_attempts as $row): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['quiz_title']) ?></td>
-                        <td><?= $row['score'] ?> / <?= $row['total_questions'] ?></td>
-                        <td><?= date("Y-m-d H:i", strtotime($row['attempted_at'])) ?></td>
-                        <td><a href="quiz_results.php?attempt_id=<?= $row['attempt_id'] ?>" class="btn btn-sm btn-primary">View</a></td>
+                        <td class="text-wrap"><?= htmlspecialchars($row['quiz_title']) ?></td>
+                        <td class="text-wrap"><?= $row['score'] ?> / 100</td>
+                        <td class="text-wrap"><?= date("d-m-Y H:i", strtotime($row['attempted_at'])) ?></td>
+                        <td class="text-wrap"><a href="quiz_results.php?attempt_id=<?= $row['attempt_id'] ?>" class="btn btn-sm btn-primary">View</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -171,19 +171,19 @@ include '../templates/header.php';
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>Title</th>
-                <th>Teacher</th>
-                <th>Created</th>
+                <th class="w-25 text-wrap">Title</th>
+                <th class="w-25 text-wrap">Teacher</th>
+                <th class="w-25 text-wrap">Created</th>
                 <th style="width: 180px;">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($courses as $course): ?>
                 <tr>
-                    <td><?= htmlspecialchars($course['title']) ?></td>
-                    <td><?= htmlspecialchars($course['teacher_name'] ?? '—') ?></td>
-                    <td><?= date('Y-m-d', strtotime($course['created_at'])) ?></td>
-                    <td>
+                    <td class="text-wrap"><?= htmlspecialchars($course['title']) ?></td>
+                    <td class="text-wrap"><?= htmlspecialchars($course['teacher_name'] ?? '—') ?></td>
+                    <td class="text-wrap"><?= date('Y-m-d', strtotime($course['created_at'])) ?></td>
+                    <td class="text-wrap">
                         <a href="<?= base_url('users/course_modules.php?course_id=' . $course['id']) ?>" class="btn btn-sm btn-primary">View Modules</a>
                         <?php if (!in_array($course['id'], $enrolled_ids)): ?>
                             <a href="<?= base_url('users/enroll.php?course_id=' . $course['id']) ?>" class="btn btn-sm btn-success">Enroll</a>

@@ -50,7 +50,7 @@ include '../templates/header.php';
             <div class="card-body">
                 <h5 class="card-title"><?= htmlspecialchars($mod['title']) ?></h5>
                 <p class="card-text"><?= nl2br(htmlspecialchars($mod['content'])) ?></p>
-                <p class="text-muted small">Created on <?= date('Y-m-d H:i', strtotime($mod['created_at'])) ?></p>
+                <p class="text-muted small">Created on <?= date('d-m-Y H:i', strtotime($mod['created_at'])) ?></p>
 
                 <?php
                 $m_stmt = $pdo->prepare("SELECT * FROM module_materials WHERE module_id = ?");

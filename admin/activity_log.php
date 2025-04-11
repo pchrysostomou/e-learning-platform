@@ -47,22 +47,22 @@ $logs = $stmt->fetchAll();
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
-            <th>User</th>
-            <th>Activity</th>
-            <th>Date</th>
+            <th class="w-25 text-wrap">User</th>
+            <th class="w-25 text-wrap">Activity</th>
+            <th class="w-25 text-wrap">Date</th>
         </tr>
     </thead>
     <tbody>
         <?php if (count($logs) > 0): ?>
             <?php foreach ($logs as $log): ?>
                 <tr>
-                <td>
+                <td class="text-wrap">
                 <a href="<?= base_url('admin/user_profile.php?id=' . $log['user_id']) ?>">
                 <?= htmlspecialchars($log['name']) ?>
                 </a>
                 </td>
-                    <td><?= htmlspecialchars($log['activity']) ?></td>
-                    <td class="text-muted"><?= date('Y-m-d H:i', strtotime($log['created_at'])) ?></td>
+                    <td class="text-wrap"><?= htmlspecialchars($log['activity']) ?></td>
+                    <td class="text-muted"><?= date('d-m-Y H:i', strtotime($log['created_at'])) ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>

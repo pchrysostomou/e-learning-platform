@@ -59,19 +59,19 @@ include '../templates/header.php';
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
-            <th>Title</th>
-            <th>Teacher</th>
-            <th>Created At</th>
+            <th class="w-25 text-wrap">Title</th>
+            <th class="w-25 text-wrap">Teacher</th>
+            <th class="w-25 text-wrap">Created At</th>
             <th style="width: 120px;">Actions</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($courses as $course): ?>
             <tr>
-                <td><?= htmlspecialchars($course['title']) ?></td>
-                <td><?= htmlspecialchars($course['teacher_name'] ?? '—') ?></td>
-                <td><?= date('Y-m-d H:i', strtotime($course['created_at'])) ?></td>
-                <td>
+                <td class="text-wrap"><?= htmlspecialchars($course['title']) ?></td>
+                <td class="text-wrap"><?= htmlspecialchars($course['teacher_name'] ?? '—') ?></td>
+                <td class="text-wrap"><?= date('d-m-Y H:i', strtotime($course['created_at'])) ?></td>
+                <td class="text-wrap">
                     <a href="<?= base_url('admin/edit_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
                     <a href="<?= base_url('admin/delete_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this course?')">Delete</a>
                 </td>

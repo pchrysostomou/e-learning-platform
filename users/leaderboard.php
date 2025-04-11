@@ -69,21 +69,21 @@ include '../templates/header.php';
                 <table class="table table-bordered table-striped">
                     <thead class="table-dark">
                         <tr>
-                            <th>Rank</th>
-                            <th>Student</th>
-                            <th>Score</th>
-                            <th>Time Taken</th>
-                            <th>Date</th>
+                            <th class="w-25 text-wrap">Rank</th>
+                            <th class="w-25 text-wrap">Student</th>
+                            <th class="w-25 text-wrap">Score</th>
+                            <th class="w-25 text-wrap">Time Taken</th>
+                            <th class="w-25 text-wrap">Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($leaderboard as $i => $row): ?>
                             <tr>
-                                <td><?= $i + 1 ?></td>
-                                <td><?= htmlspecialchars($row['name']) ?></td>
-                                <td><?= $row['score'] ?> / <?= $row['total_questions'] ?></td>
-                                <td><?= $row['time_taken_seconds'] ?>s</td>
-                                <td><?= date("Y-m-d H:i", strtotime($row['attempted_at'])) ?></td>
+                                <td class="text-wrap"><?= $i + 1 ?></td>
+                                <td class="text-wrap"><?= htmlspecialchars($row['name']) ?></td>
+                                <td class="text-wrap"><?= $row['score'] ?> / <?= $row['total_questions'] ?></td>
+                                <td class="text-wrap"><?= $row['time_taken_seconds'] ?>s</td>
+                                <td class="text-wrap"><?= date("d-m-Y H:i", strtotime($row['attempted_at'])) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

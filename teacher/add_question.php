@@ -32,13 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $column_a = $_POST['column_a'] ?? [];
         $column_b = $_POST['column_b'] ?? [];
         $pairs = [];
-
         for ($i = 0; $i < count($column_a); $i++) {
             if (!empty($column_a[$i]) && !empty($column_b[$i])) {
                 $pairs[] = ['left' => trim($column_a[$i]), 'right' => trim($column_b[$i])];
             }
         }
-
         $correct_answer = json_encode($pairs);
         $question = $_POST['question'];
         $option_a = $option_b = $option_c = $option_d = null;
@@ -47,21 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fill_text = $_POST['fill_text'] ?? '';
         preg_match_all('/\[([^\[\]]+)\]/', $fill_text, $matches);
         $corrects = [];
-
         foreach ($matches[1] as $group) {
             $options = array_map('trim', explode('|', $group));
             if (isset($options[0])) {
                 $corrects[] = $options[0];
             }
         }
-
         $correct_answer = json_encode($corrects);
         $question = $fill_text;
         $option_a = $option_b = $option_c = $option_d = null;
 
     } elseif ($type === 'true_false') {
         $question = $_POST['question'];
-        $correct_answer = $_POST['true_false_answer'] ?? null; // ✅ fixed
+        $correct_answer = $_POST['true_false_answer'] ?? null;
         $option_a = $option_b = $option_c = $option_d = null;
 
     } else {
@@ -89,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $page_title = "Add Question";
 require_once '../templates/header.php';
 ?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 bg-light">
@@ -135,7 +132,7 @@ require_once '../templates/header.php';
                     <textarea name="question" class="form-control" id="questionField" required></textarea>
                 </div>
 
-                <!-- MCQ Options -->
+                <!-- MCQ -->
                 <div id="mcq-options">
                     <input type="text" name="option_a" class="form-control mb-2" placeholder="Option A">
                     <input type="text" name="option_b" class="form-control mb-2" placeholder="Option B">
@@ -143,9 +140,9 @@ require_once '../templates/header.php';
                     <input type="text" name="option_d" class="form-control mb-2" placeholder="Option D">
                 </div>
 
-                <!-- True/False Dropdown -->
+                <!-- True/False -->
                 <div class="mb-3" id="trueFalseOptions" style="display: none;">
-                    <label class="form-label">Select Correct Answer</label>
+                    <label class="form-label">Correct Answer</label>
                     <select name="true_false_answer" class="form-select">
                         <option value="True">True</option>
                         <option value="False">False</option>
@@ -163,29 +160,29 @@ require_once '../templates/header.php';
                     </div>
                 </div>
 
-                <!-- Fill-in-the-Blank -->
+                <!-- Fill in the Blanks -->
                 <div id="fill-blank-options" style="display: none;">
                     <label class="form-label">Fill-in Sentence</label>
-                    <textarea name="fill_text" id="fillTextInput" class="form-control" oninput="updateFillPreview()" placeholder="e.g. The capital of France is [Paris|London|Rome]."></textarea>
+                    <textarea name="fill_text" id="fillTextInput" class="form-control" oninput="updateFillPreview()" placeholder="e.g. Python was created by [Guido|James|Dennis]"></textarea>
                     <div class="mt-3">
                         <label class="form-label">Preview</label>
                         <div id="fillPreview" class="border p-2 bg-light"></div>
                     </div>
                 </div>
 
-                <!-- Correct Answer Field (MCQ only) -->
+                <!-- MCQ answer input -->
                 <div class="mb-3 mt-3" id="correctAnswerWrapper">
                     <label class="form-label">Correct Answer</label>
                     <input type="text" name="correct_answer" class="form-control" id="correctAnswerInput">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Hint (optional)</label>
+                    <label class="form-label">Hint</label>
                     <textarea name="hint" class="form-control"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Explanation (optional)</label>
+                    <label class="form-label">Explanation</label>
                     <textarea name="explanation" class="form-control"></textarea>
                 </div>
 
@@ -198,37 +195,25 @@ require_once '../templates/header.php';
 <script>
 function toggleQuestionType() {
     const type = document.querySelector("select[name='type']").value;
-
     document.getElementById("mcq-options").style.display = (type === 'mcq') ? 'block' : 'none';
     document.getElementById("trueFalseOptions").style.display = (type === 'true_false') ? 'block' : 'none';
     document.getElementById("matching-options").style.display = (type === 'matching') ? 'block' : 'none';
     document.getElementById("fill-blank-options").style.display = (type === 'fill_blank_dropdown') ? 'block' : 'none';
     document.getElementById("correctAnswerWrapper").style.display = (type === 'mcq') ? 'block' : 'none';
-
-    if (type === 'true_false') {
-        document.getElementById("correctAnswerInput").value = ""; // clear MCQ answer input
-    }
-
     updatePreview?.();
     updateFillPreview?.();
 }
 
 function addMatchPair() {
-    const pairList = document.getElementById("pair-list");
-    const row = document.createElement('div');
-    row.className = 'row mb-2';
+    const container = document.getElementById("pair-list");
+    const row = document.createElement("div");
+    row.className = "row mb-2";
     row.innerHTML = `
-        <div class="col-md-5">
-            <input type="text" name="column_a[]" class="form-control" placeholder="Column A" oninput="updatePreview()">
-        </div>
-        <div class="col-md-5">
-            <input type="text" name="column_b[]" class="form-control" placeholder="Column B" oninput="updatePreview()">
-        </div>
-        <div class="col-md-2 text-end">
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.parentElement.remove(); updatePreview();">✖</button>
-        </div>
+        <div class="col-md-5"><input type="text" name="column_a[]" class="form-control" placeholder="Column A" oninput="updatePreview()"></div>
+        <div class="col-md-5"><input type="text" name="column_b[]" class="form-control" placeholder="Column B" oninput="updatePreview()"></div>
+        <div class="col-md-2 text-end"><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.row').remove(); updatePreview();">✖</button></div>
     `;
-    pairList.appendChild(row);
+    container.appendChild(row);
     updatePreview();
 }
 

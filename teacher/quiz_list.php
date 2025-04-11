@@ -44,7 +44,7 @@ require_once '../templates/sidebar.php';
                     <th>Module</th>
                     <th>Duration</th>
                     <th>Created</th>
-                    <th style="width: 240px;">Actions</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>

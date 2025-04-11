@@ -62,17 +62,17 @@ include '../templates/header.php';
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
-            <th>Title</th>
-            <th>Created</th>
+            <th class="w-25 text-wrap">Title</th>
+            <th class="w-25 text-wrap">Created</th>
             <th style="width: 250px;">Actions</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($courses as $course): ?>
             <tr>
-                <td><?= htmlspecialchars($course['title']) ?></td>
-                <td><?= date('Y-m-d H:i', strtotime($course['created_at'])) ?></td>
-                <td>
+                <td class="text-wrap"><?= htmlspecialchars($course['title']) ?></td>
+                <td class="text-wrap"><?= date('d-m-Y H:i', strtotime($course['created_at'])) ?></td>
+                <td class="text-wrap">
                     <a href="<?= base_url('teacher/edit_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
                     <a href="<?= base_url('teacher/modules.php?course_id=' . $course['id']) ?>" class="btn btn-sm btn-secondary">Modules</a>
                     <a href="<?= base_url('teacher/create_quiz.php?course_id=' . $course['id']) ?>" class="btn btn-sm btn-info">Create Quiz</a>

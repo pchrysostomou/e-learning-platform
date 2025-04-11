@@ -36,6 +36,12 @@ $question_stmt = $pdo->prepare("SELECT * FROM questions WHERE quiz_id = ? ORDER 
 $question_stmt->execute([$quiz_id]);
 $questions = $question_stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+function is_json($string) {
+    json_decode($string);
+    return json_last_error() === JSON_ERROR_NONE;
+}
+
 $page_title = "Questions for: " . htmlspecialchars($quiz['title']);
 require_once '../templates/header.php';
 require_once '../templates/sidebar.php';
@@ -50,6 +56,7 @@ require_once '../templates/sidebar.php';
     <?php if (empty($questions)): ?>
         <div class="alert alert-info">No questions have been added to this quiz yet.</div>
     <?php else: ?>
+        <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-light">
                 <tr>
@@ -61,31 +68,29 @@ require_once '../templates/sidebar.php';
                 </tr>
             </thead>
             <tbody>
-    <?php foreach ($questions as $index => $q): ?>
-        <tr>
-            <td><?= $index + 1 ?></td>
-            <td><?= strtoupper($q['type']) ?></td>
-            <td><?= nl2br(htmlspecialchars($q['question_text'])) ?></td>
-            <td>
-                <?php
-                    if ($q['type'] === 'matching' || $q['type'] === 'fill_blank_dropdown') {
-                        echo "<pre>" . htmlspecialchars($q['correct_answer']) . "</pre>";
-                    } elseif ($q['type'] === 'true_false') {
-                        echo ($q['correct_answer'] === '1' || strtolower($q['correct_answer']) === 'true') ? 'True' : 'False';
-                    } else {
-                        echo htmlspecialchars($q['correct_answer']);
-                    }
-                ?>
-            </td>
-            <td>
-            <a href="edit_question.php?id=<?= $q['id'] ?>&quiz_id=<?= $quiz_id ?>" class="btn btn-sm btn-warning">✏ Edit</a>
-                <a href="delete_question.php?id=<?= $q['id'] ?>&quiz_id=<?= $quiz_id ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this question?')">🗑 Delete</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</tbody>
-
+            <?php foreach ($questions as $index => $q): ?>
+                <tr>
+                    <td><?= $index + 1 ?></td>
+                    <td><?= strtoupper($q['type']) ?></td>
+                    <td class="text-wrap"><?= nl2br(htmlspecialchars($q['question_text'])) ?></td>
+                    <td class="text-wrap">
+                        <?php
+                            if ($q['type'] === 'true_false') {
+                                echo ($q['correct_answer'] === '1' || strtolower($q['correct_answer']) === 'true') ? 'True' : 'False';
+                            } else {
+                                echo format_json_answer_pretty($q['correct_answer'], $q['type']);
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <a href="edit_question.php?id=<?= $q['id'] ?>&quiz_id=<?= $quiz_id ?>" class="btn btn-sm btn-warning">✏ Edit</a>
+                        <a href="delete_question.php?id=<?= $q['id'] ?>&quiz_id=<?= $quiz_id ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this question?')">🗑 Delete</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
         </table>
+        </div>
     <?php endif; ?>
 </div>
 

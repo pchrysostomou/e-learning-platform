@@ -29,7 +29,7 @@ if ($user['role'] === 'student') {
     $sql = "SELECT c.title, e.created_at 
             FROM enrollments e 
             JOIN courses c ON c.id = e.course_id 
-            WHERE e.student_id = ?";
+            WHERE e.user_id = ?";
 } elseif ($user['role'] === 'teacher') {
     $sql = "SELECT title, created_at FROM courses WHERE teacher_id = ?";
 } else {

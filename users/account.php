@@ -214,7 +214,7 @@ $logs = $stmt->fetchAll();
     <?php foreach ($logs as $log): ?>
         <li class="list-group-item d-flex justify-content-between">
             <span><?= htmlspecialchars($log['activity']) ?></span>
-            <span class="text-muted small"><?= date('Y-m-d H:i', strtotime($log['created_at'])) ?></span>
+            <span class="text-muted small"><?= date('d-m-Y H:i', strtotime($log['created_at'])) ?></span>
         </li>
     <?php endforeach; ?>
 </ul>

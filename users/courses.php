@@ -69,19 +69,19 @@ include '../templates/header.php';
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>Title</th>
-                <th>Teacher</th>
-                <th>Created</th>
+                <th class="w-25 text-wrap">Title</th>
+                <th class="w-25 text-wrap">Teacher</th>
+                <th class="w-25 text-wrap">Created</th>
                 <th style="width: 150px;">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($courses as $course): ?>
                 <tr>
-                    <td><?= htmlspecialchars($course['title']) ?></td>
-                    <td><?= htmlspecialchars($course['teacher_name'] ?? '—') ?></td>
-                    <td><?= date('Y-m-d', strtotime($course['created_at'])) ?></td>
-                    <td>
+                    <td class="text-wrap"><?= htmlspecialchars($course['title']) ?></td>
+                    <td class="text-wrap"><?= htmlspecialchars($course['teacher_name'] ?? '—') ?></td>
+                    <td class="text-wrap"><?= date('Y-m-d', strtotime($course['created_at'])) ?></td>
+                    <td class="text-wrap">
                         <?php if (in_array($course['id'], $enrolled_ids)): ?>
                             <span class="badge bg-secondary">Enrolled</span>
                         <?php else: ?>

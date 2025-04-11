@@ -47,3 +47,22 @@ if (!function_exists('log_activity')) {
         $stmt->execute([$user_id, $activity]);
     }
 }
+function format_json_answer_pretty($json, $type) {
+    if (!in_array($type, ['matching', 'fill_blank_dropdown']) || !is_json($json)) {
+        return htmlspecialchars($json);
+    }
+
+    $pairs = json_decode($json, true);
+    $html = '<ul class="mb-0 ps-3">';
+    foreach ($pairs as $pair) {
+        if (is_array($pair)) {
+            $left = htmlspecialchars($pair['left'] ?? '');
+            $right = htmlspecialchars($pair['right'] ?? '');
+            $html .= "<li>{$left} → {$right}</li>";
+        } else {
+            $html .= '<li>' . htmlspecialchars((string)$pair) . '</li>';
+        }
+    }
+    $html .= '</ul>';
+    return $html;
+}

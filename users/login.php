@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Optional: Remember Me
             if (!empty($_POST['remember'])) {
                 $token = bin2hex(random_bytes(32));
-                $expires = date('Y-m-d H:i:s', strtotime('+30 days'));
+                $expires = date('d-m-Y H:i:s', strtotime('+30 days'));
                 $stmt = $pdo->prepare("INSERT INTO auth_tokens (user_id, token, expires_at) VALUES (?, ?, ?)");
                 $stmt->execute([$user['id'], hash('sha256', $token), $expires]);
                 setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), "/", "", false, true);

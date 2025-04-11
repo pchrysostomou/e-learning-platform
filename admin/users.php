@@ -49,21 +49,21 @@ include '../templates/header.php';
 <table class="table table-bordered table-hover">
     <thead class="table-light">
         <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Created</th>
+            <th class="w-25 text-wrap">Name</th>
+            <th class="w-25 text-wrap">Email</th>
+            <th class="w-25 text-wrap">Role</th>
+            <th class="w-25 text-wrap">Created</th>
             <th style="width: 120px;">Actions</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= htmlspecialchars($user['name']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td><?= ucfirst($user['role']) ?></td>
-                <td><?= date('Y-m-d H:i', strtotime($user['created_at'])) ?></td>
-                <td>
+                <td class="text-wrap"><?= htmlspecialchars($user['name']) ?></td>
+                <td class="text-wrap"><?= htmlspecialchars($user['email']) ?></td>
+                <td class="text-wrap"><?= ucfirst($user['role']) ?></td>
+                <td class="text-wrap"><?= date('d-m-Y H:i', strtotime($user['created_at'])) ?></td>
+                <td class="text-wrap">
                     <a href="<?= base_url('admin/edit_user.php?id=' . $user['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
                     <a href="<?= base_url('admin/delete_user.php?id=' . $user['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?')">Delete</a>
                 </td>

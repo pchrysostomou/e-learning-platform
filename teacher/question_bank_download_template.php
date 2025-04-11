@@ -100,25 +100,43 @@ require_once '../templates/header.php';
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
-                    <th><input type="checkbox" onclick="toggleAll(this)"></th>
-                    <th>Question</th>
-                    <th>Type</th>
-                    <th>Correct Answer</th>
-                    <th>Course</th>
-                    <th>Quiz</th>
+                    <th class="w-25 text-wrap"><input type="checkbox" onclick="toggleAll(this)"></th>
+                    <th class="w-25 text-wrap">Question</th>
+                    <th class="w-25 text-wrap">Type</th>
+                    <th class="w-25 text-wrap">Correct Answer</th>
+                    <th class="w-25 text-wrap">Course</th>
+                    <th class="w-25 text-wrap">Quiz</th>
                     <th style="width: 150px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($questions as $q): ?>
                     <tr>
-                        <td><input type="checkbox" name="question_ids[]" value="<?= $q['id'] ?>"></td>
-                        <td><?= htmlspecialchars($q['question_text']) ?></td>
-                        <td><?= strtoupper($q['type']) ?></td>
-                        <td><?= htmlspecialchars($q['correct_answer']) ?></td>
-                        <td><?= htmlspecialchars($q['course_title'] ?? '-') ?></td>
-                        <td><?= htmlspecialchars($q['quiz_title'] ?? '-') ?></td>
-                        <td>
+                        <td class="text-wrap"><input type="checkbox" name="question_ids[]" value="<?= $q['id'] ?>"></td>
+                        <td class="text-wrap"><?= htmlspecialchars($q['question_text']) ?></td>
+                        <td class="text-wrap"><?= strtoupper($q['type']) ?></td>
+                        <td class="text-wrap">
+<?php
+if (in_array($q['type'], ['matching', 'fill_blank_dropdown']) && is_json($q['correct_answer'])) {
+    $pairs = json_decode($q['correct_answer'], true);
+    echo '<ul class="mb-0 ps-3">';
+    foreach ($pairs as $pair) {
+        if (isset($pair['left']) && isset($pair['right'])) {
+            echo '<li>' . htmlspecialchars($pair['left']) . ' → ' . htmlspecialchars($pair['right']) . '</li>';
+        } else {
+            echo '<li>' . htmlspecialchars((string)$pair) . '</li>';
+        }
+    }
+    echo '</ul>';
+} else {
+    echo htmlspecialchars($q['correct_answer']);
+}
+?>
+</td>
+
+                        <td class="text-wrap"><?= htmlspecialchars($q['course_title'] ?? '-') ?></td>
+                        <td class="text-wrap"><?= htmlspecialchars($q['quiz_title'] ?? '-') ?></td>
+                        <td class="text-wrap">
                             <a href="question_bank_edit_question.php?id=<?= $q['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                             <a href="question_bank_delete_question.php?id=<?= $q['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this question?')">Delete</a>
                         </td>

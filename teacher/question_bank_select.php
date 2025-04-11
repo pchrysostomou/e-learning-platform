@@ -86,24 +86,42 @@ require_once '../templates/header.php';
 
             <form method="POST">
                 <input type="hidden" name="quiz_id" value="<?= htmlspecialchars($quiz_id) ?>">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive">
                     <thead class="table-light">
                         <tr>
-                            <th></th>
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Question</th>
-                            <th>Correct Answer</th>
+                            <th class="w-25 text-wrap"></th>
+                            <th class="w-25 text-wrap">ID</th>
+                            <th class="w-25 text-wrap">Type</th>
+                            <th class="w-25 text-wrap">Question</th>
+                            <th class="w-25 text-wrap">Correct Answer</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($questions as $q): ?>
                             <tr>
-                                <td><input type="checkbox" name="selected_questions[]" value="<?= $q['id'] ?>"></td>
-                                <td><?= $q['id'] ?></td>
-                                <td><?= strtoupper($q['question_type']) ?></td>
-                                <td><?= htmlspecialchars($q['question_text']) ?></td>
-                                <td><?= htmlspecialchars($q['correct_answer']) ?></td>
+                                <td class="text-wrap"><input type="checkbox" name="selected_questions[]" value="<?= $q['id'] ?>"></td>
+                                <td class="text-wrap"><?= $q['id'] ?></td>
+                                <td class="text-wrap"><?= strtoupper($q['question_type']) ?></td>
+                                <td class="text-wrap"><?= htmlspecialchars($q['question_text']) ?></td>
+                                <td class="text-wrap">
+<?php
+if (in_array($q['type'], ['matching', 'fill_blank_dropdown']) && is_json($q['correct_answer'])) {
+    $pairs = json_decode($q['correct_answer'], true);
+    echo '<ul class="mb-0 ps-3">';
+    foreach ($pairs as $pair) {
+        if (isset($pair['left']) && isset($pair['right'])) {
+            echo '<li>' . htmlspecialchars($pair['left']) . ' → ' . htmlspecialchars($pair['right']) . '</li>';
+        } else {
+            echo '<li>' . htmlspecialchars((string)$pair) . '</li>';
+        }
+    }
+    echo '</ul>';
+} else {
+    echo htmlspecialchars($q['correct_answer']);
+}
+?>
+</td>
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

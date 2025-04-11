@@ -27,6 +27,8 @@ $user_role = $_SESSION['user_role'] ?? 'guest';
     <?php elseif ($user_role === 'student'): ?>
         <a href="<?= base_url('users/dashboard.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/dashboard.php') ?>">📖 Student Dashboard</a>
         <a href="<?= base_url('users/courses.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/courses.php') ?>">🎓 Browse Courses</a>
+        <a href="<?= base_url('users/available_quizzes.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/available_quizzes.php') ?>">📝 Take a Quiz</a>
+        <a href="<?= base_url('users/my_scores.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/my_scores.php') ?>">📊 My Scores</a>
     <?php endif; ?>
 
     <a href="<?= base_url('users/account.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/account.php') ?>">⚙️ My Account</a>

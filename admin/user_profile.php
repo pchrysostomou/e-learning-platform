@@ -36,7 +36,7 @@ if ($user['role'] === 'student') {
         SELECT c.title, c.id, e.created_at 
         FROM enrollments e 
         JOIN courses c ON c.id = e.course_id 
-        WHERE e.student_id = ?
+        WHERE e.user_id = ?
     ");
 } elseif ($user['role'] === 'teacher') {
     $course_stmt = $pdo->prepare("SELECT id, title, created_at FROM courses WHERE teacher_id = ?");
@@ -117,7 +117,7 @@ include '../templates/header.php';
                     <?php foreach ($logs as $log): ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <?= htmlspecialchars($log['activity']) ?>
-                            <span class="text-muted small"><?= date('Y-m-d H:i', strtotime($log['created_at'])) ?></span>
+                            <span class="text-muted small"><?= date('d-m-Y H:i', strtotime($log['created_at'])) ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>

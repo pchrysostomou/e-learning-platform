@@ -42,21 +42,21 @@ require_once '../templates/header.php';
                 <table class="table table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th>ID</th>
-                            <th>Type</th>
-                            <th>Question</th>
-                            <th>Correct Answer</th>
-                            <th>Details</th>
+                            <th class="w-25 text-wrap">ID</th>
+                            <th class="w-25 text-wrap">Type</th>
+                            <th class="w-25 text-wrap">Question</th>
+                            <th class="w-25 text-wrap">Correct Answer</th>
+                            <th class="w-25 text-wrap">Details</th>
                             <th style="width: 160px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($questions as $q): ?>
                             <tr>
-                                <td><?= $q['id'] ?></td>
-                                <td><?= strtoupper($q['type']) ?></td>
-                                <td><?= nl2br(htmlspecialchars($q['question_text'])) ?></td>
-                                <td>
+                                <td class="text-wrap"><?= $q['id'] ?></td>
+                                <td class="text-wrap"><?= strtoupper($q['type']) ?></td>
+                                <td class="text-wrap"><?= nl2br(htmlspecialchars($q['question_text'])) ?></td>
+                                <td class="text-wrap">
                                     <?php
                                         if ($q['type'] === 'matching') {
                                             echo '<code>' . htmlspecialchars(substr($q['correct_answer'], 0, 80)) . '...</code>';
@@ -67,7 +67,7 @@ require_once '../templates/header.php';
                                         }
                                     ?>
                                 </td>
-                                <td>
+                                <td class="text-wrap">
                                     <?php if (!empty($q['hint'])): ?>
                                         <div><strong>Hint:</strong> <?= htmlspecialchars($q['hint']) ?></div>
                                     <?php endif; ?>
@@ -75,7 +75,7 @@ require_once '../templates/header.php';
                                         <div><strong>Explanation:</strong> <?= htmlspecialchars($q['explanation']) ?></div>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td class="text-wrap">
                                     <a href="question_bank_edit_question.php?id=<?= $q['id'] ?>" class="btn btn-sm btn-warning">✏ Edit</a>
                                     <a href="question_bank_delete_question.php?id=<?= $q['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this question?')">🗑 Delete</a>
                                 </td>

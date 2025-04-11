@@ -62,9 +62,9 @@ include '../templates/header.php';
     <table class="table table-bordered table-hover align-middle">
         <thead class="table-light">
             <tr>
-                <th>👤 Student</th>
-                <th>📧 Email</th>
-                <th>📈 Progress</th>
+                <th class="w-25 text-wrap">👤 Student</th>
+                <th class="w-25 text-wrap">📧 Email</th>
+                <th class="w-25 text-wrap">📈 Progress</th>
             </tr>
         </thead>
         <tbody>
@@ -75,9 +75,9 @@ include '../templates/header.php';
                     $barColor = $percent === 100 ? 'success' : ($percent > 0 ? 'info' : 'secondary');
                 ?>
                 <tr>
-                    <td><?= htmlspecialchars($s['name']) ?></td>
-                    <td><?= htmlspecialchars($s['email']) ?></td>
-                    <td>
+                    <td class="text-wrap"><?= htmlspecialchars($s['name']) ?></td>
+                    <td class="text-wrap"><?= htmlspecialchars($s['email']) ?></td>
+                    <td class="text-wrap">
                         <div class="progress" style="height: 20px;">
                             <div class="progress-bar bg-<?= $barColor ?>" role="progressbar" style="width: <?= $percent ?>%;">
                                 <?= $percent ?>%
