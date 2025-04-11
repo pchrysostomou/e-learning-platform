@@ -1,11 +1,12 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once '/includes/functions.php';
-require_once '/includes/db.php';
-require_once '/includes/session.php';
+
+require_once './includes/functions.php';
+require_once './includes/db.php';
+require_once './includes/session.php';
 
 $user_id = $_SESSION['user_id'] ?? null;
-$user_role = $_SESSION['user_role'] ?? 'guest';
+$user_role = $_SESSION['user_role'] ?? 'users';
 $user_name = $_SESSION['user_name'] ?? 'User';
 
 // Fetch profile pic
@@ -38,10 +39,8 @@ $profile_pic = base_url('uploads/profile_pics/' . ($pic ?: 'default.png'));
                 <?= htmlspecialchars($user_name) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="<?= base_url($user_role . '/dashboard.php') ?>">📊 Dashboard</a></li>
-                <li><a class="dropdown-item" href="<?= base_url('users/account.php') ?>">⚙️ My Account</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="<?= base_url('users/logout.php') ?>">🚪 Logout</a></li>
+                <li><a class="dropdown-item" href="<?= base_url($user_role . '/register.php') ?>">📝 Register</a></li>
+                <li><a class="dropdown-item" href="<?= base_url($user_role . '/login.php') ?>">🔐 Login</a></li>
             </ul>
         </div>
     </div>
@@ -54,4 +53,4 @@ $profile_pic = base_url('uploads/profile_pics/' . ($pic ?: 'default.png'));
         </div>
 
         <!-- Page content starts here -->
-        <div class="col-md-9 col-lg-10 p-4">
+        <div class="col-md-9 col-lg-10 p-4"></div>
