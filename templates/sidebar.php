@@ -22,7 +22,8 @@ $user_role = $_SESSION['user_role'] ?? 'guest';
         <a href="<?= base_url('teacher/dashboard.php') ?>" class="list-group-item list-group-item-action <?= is_active('teacher/dashboard.php') ?>">🎓 Teacher Dashboard</a>
         <a href="<?= base_url('teacher/create_course.php') ?>" class="list-group-item list-group-item-action <?= is_active('teacher/create_course.php') ?>">➕ Create Course</a>
         <a href="<?= base_url('teacher/my_courses.php') ?>" class="list-group-item list-group-item-action <?= is_active('teacher/my_courses.php') ?>">📘 My Courses</a>
-
+        <a href="<?= base_url('teacher/quiz_list.php') ?>" class="list-group-item list-group-item-action <?= is_active('teacher/quiz_list.php') ?>">📋 My Quizzes</a>
+        <a href="<?= base_url('teacher/question_bank.php') ?>" class="list-group-item list-group-item-action <?= is_active('teacher/question_bank.php') ?>">📚 Question Bank</a>
     <?php elseif ($user_role === 'student'): ?>
         <a href="<?= base_url('users/dashboard.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/dashboard.php') ?>">📖 Student Dashboard</a>
         <a href="<?= base_url('users/courses.php') ?>" class="list-group-item list-group-item-action <?= is_active('users/courses.php') ?>">🎓 Browse Courses</a>

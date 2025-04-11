@@ -32,7 +32,7 @@ $count_stmt->execute($params);
 $total_courses = $count_stmt->fetchColumn();
 $total_pages = ceil($total_courses / $per_page);
 
-// 👇 Fix: Inject LIMIT and OFFSET safely as integers (not placeholders)
+// Inject LIMIT and OFFSET safely
 $limit_sql = "LIMIT " . (int)$per_page . " OFFSET " . (int)$offset;
 $query = "SELECT * FROM courses $where_sql ORDER BY created_at DESC $limit_sql";
 $stmt = $pdo->prepare($query);
@@ -64,7 +64,7 @@ include '../templates/header.php';
         <tr>
             <th>Title</th>
             <th>Created</th>
-            <th style="width: 200px;">Actions</th>
+            <th style="width: 250px;">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -75,6 +75,7 @@ include '../templates/header.php';
                 <td>
                     <a href="<?= base_url('teacher/edit_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-primary">Edit</a>
                     <a href="<?= base_url('teacher/modules.php?course_id=' . $course['id']) ?>" class="btn btn-sm btn-secondary">Modules</a>
+                    <a href="<?= base_url('teacher/create_quiz.php?course_id=' . $course['id']) ?>" class="btn btn-sm btn-info">Create Quiz</a>
                     <a href="<?= base_url('teacher/delete_course.php?id=' . $course['id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this course?')">Delete</a>
                 </td>
             </tr>
