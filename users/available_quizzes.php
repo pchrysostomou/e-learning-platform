@@ -42,12 +42,12 @@ require_once '../templates/header.php';
         <table class="table table-bordered table-responsive">
             <thead class="table-light">
                 <tr>
-                    <th class="w-25 text-wrap">Course</th>
-                    <th class="w-25 text-wrap">Module</th>
-                    <th class="w-25 text-wrap">Quiz Title</th>
-                    <th class="w-25 text-wrap">Week</th>
-                    <th class="w-25 text-wrap">Status</th>
-                    <th style="width: 140px;">Action</th>
+                    <th>Course</th>
+                    <th>Module</th>
+                    <th>Quiz Title</th>
+                    <th>Week</th>
+                    <th>Status</ths=>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

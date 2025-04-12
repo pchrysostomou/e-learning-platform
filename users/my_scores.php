@@ -39,23 +39,23 @@ require_once '../templates/header.php';
         <table class="table table-bordered table-striped">
             <thead class="table-light">
                 <tr>
-                    <th class="w-25 text-wrap">Course</th>
-                    <th class="w-25 text-wrap">Quiz</th>
-                    <th class="w-25 text-wrap">Week</th>
-                    <th class="w-25 text-wrap">Score</th>
-                    <th class="w-25 text-wrap">Attempted At</th>
-                    <th style="width: 140px;">Actions</th>
+                    <th>Course</th>
+                    <th>Quiz</th>
+                    <th>Week</th>
+                    <th>Score</th>
+                    <th>Attempted At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($attempts as $a): ?>
                     <tr>
-                        <td class="text-wrap"><?= htmlspecialchars($a['course_title']) ?></td>
-                        <td class="text-wrap"><?= htmlspecialchars($a['quiz_title']) ?></td>
-                        <td class="text-wrap">Week <?= htmlspecialchars($a['week']) ?></td>
-                        <td class="text-wrap"><?= $a['score'] ?>%</td>
-                        <td class="text-wrap"><?= date('d-m-Y H:i', strtotime($a['attempted_at'])) ?></td>
-                        <td class="text-wrap">
+                        <td><?= htmlspecialchars($a['course_title']) ?></td>
+                        <td><?= htmlspecialchars($a['quiz_title']) ?></td>
+                        <td>Week <?= htmlspecialchars($a['week']) ?></td>
+                        <td><?= $a['score'] ?>%</td>
+                        <td><?= date('d-m-Y H:i', strtotime($a['attempted_at'])) ?></td>
+                        <td>
                             <a href="view_score.php?quiz_id=<?= $a['quiz_id'] ?>" class="btn btn-sm btn-outline-primary">📄 View</a>
                         </td>
                     </tr>

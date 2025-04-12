@@ -1,8 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once '/includes/functions.php';
-require_once '/includes/db.php';
-require_once '/includes/session.php';
+require_once '../includes/functions.php';
+require_once '../includes/db.php';
 
 $user_id = $_SESSION['user_id'] ?? null;
 $user_role = $_SESSION['user_role'] ?? 'guest';
