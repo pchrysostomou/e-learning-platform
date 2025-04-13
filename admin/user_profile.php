@@ -38,12 +38,14 @@ if ($user['role'] === 'student') {
         JOIN courses c ON c.id = e.course_id 
         WHERE e.user_id = ?
     ");
+    $course_stmt->execute([$user_id]);
 } elseif ($user['role'] === 'teacher') {
     $course_stmt = $pdo->prepare("SELECT id, title, created_at FROM courses WHERE teacher_id = ?");
+    $course_stmt->execute([$user_id]);
 } else {
     $course_stmt = $pdo->prepare("SELECT id, title, created_at FROM courses ORDER BY created_at DESC LIMIT 5");
+    $course_stmt->execute();
 }
-$course_stmt->execute();
 $courses = $course_stmt->fetchAll();
 
 $page_title = "User Profile";
