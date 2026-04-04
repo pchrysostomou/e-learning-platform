@@ -29,3 +29,6 @@ uploads/
 # Ignore config files you don’t want in version control
 config.php
 .qodo
+
+# Ignore Claude Code local files
+.claude/
