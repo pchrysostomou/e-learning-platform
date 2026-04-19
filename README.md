@@ -87,5 +87,3 @@ A comprehensive, robust, and feature-rich E-Learning Web Application built with 
 ## 🛡️ Security
 This project uses phpdotenv to keep sensitive credentials secure. Ensure your .env file is included in .gitignore and never pushed to a public repository.
 
-## 📄 License
-MIT License
