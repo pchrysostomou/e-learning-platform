@@ -7,8 +7,59 @@ require_once '../includes/session.php';
 redirect_if_not_logged_in();
 
 $quiz_id = $_GET['quiz_id'] ?? null;
+
 if (!$quiz_id) {
-    die("Quiz ID not provided.");
+    // No quiz selected — show a picker with all quizzes instead of an error
+    $quizzes = $pdo->query("
+        SELECT q.id, q.title, q.week, c.title AS course_title, COUNT(a.id) AS attempts
+        FROM quizzes q
+        LEFT JOIN courses c ON q.course_id = c.id
+        LEFT JOIN quiz_attempts a ON a.quiz_id = q.id
+        GROUP BY q.id
+        ORDER BY c.title, q.week, q.created_at
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+    $page_title = "Leaderboards";
+    include '../templates/header.php';
+    ?>
+    <div class="container py-4">
+        <h2 class="mb-1">🏆 Leaderboards</h2>
+        <p class="text-muted mb-4">Pick a quiz to see its leaderboard.</p>
+
+        <?php if (empty($quizzes)): ?>
+            <div class="alert alert-info">No quizzes have been created yet.</div>
+        <?php else: ?>
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Course</th>
+                        <th>Quiz</th>
+                        <th>Week</th>
+                        <th>Attempts</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($quizzes as $q): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($q['course_title'] ?? '—') ?></td>
+                            <td><?= htmlspecialchars($q['title']) ?></td>
+                            <td>Week <?= (int)$q['week'] ?></td>
+                            <td><?= (int)$q['attempts'] ?></td>
+                            <td class="text-end">
+                                <a href="leaderboard.php?quiz_id=<?= $q['id'] ?>" class="btn btn-sm btn-primary">
+                                    View Leaderboard
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
+    <?php
+    include '../templates/footer.php';
+    exit;
 }
 
 // Fetch quiz and course info
