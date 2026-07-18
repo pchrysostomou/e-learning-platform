@@ -7,6 +7,7 @@ Thumbs.db
 
 # Ignore Composer dependencies (can be installed fresh with composer install)
 vendor/
+composer.phar
 
 #Ignore logs folder
 logs/
@@ -18,7 +19,10 @@ node_modules/
 *.log
 *.cache
 *.tmp
-uploads/
+uploads/*
+!uploads/profile_pics/
+uploads/profile_pics/*
+!uploads/profile_pics/default.png
 
 # Ignore IDE/editor folders
 .vscode/
